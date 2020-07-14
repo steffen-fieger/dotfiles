@@ -2,9 +2,14 @@
 	email = steffen@fieger-schortens.de
 	name = "Steffen Fieger"
 [core]
+	# Windows systems
+	# autocrlf = true
+	# whitespace = trailing-space,space-before-tab,indent-with-non-tab,cr-at-eol
+	# Linux system
 	autocrlf = input
-	whitespace = trailing-space,space-before-tab,indent-with-non-tab,cr-at-eol
+
 	longpaths = true
+	editor = vim
 [pull]
 	rebase = true
 [branch]
@@ -17,10 +22,15 @@
 	all = "!f() { ls | xargs -I{} git -C {} $1; }; f"
 	amend = commit --amend
 	co = checkout
-	last = log -1 HEAD
+	l = log -1 HEAD
 	ll = log --pretty=format:'%C(auto)%h %C(brightmagenta)%ad %C(blue)[%an] %C(auto)%d %C(reset)%s' --all --graph --date=format:'%Y-%m-%d %H:%M'
 	rmbs = "!git branch | grep -v 'master' | xargs git branch -D"
 	rd = review -d
 	rhl = reset --hard
 	rhu = reset --hard @{u}
 	st = status
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
