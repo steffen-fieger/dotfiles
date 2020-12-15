@@ -25,7 +25,7 @@
 	co = checkout
 	ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
 	l = log -1 HEAD
-	ll = log --pretty=format:'%C(auto)%h %C(brightmagenta)%ad %C(blue)[%an] %C(auto)%d %C(reset)%s' --all --graph --date=format:'%Y-%m-%d %H:%M'
+	ll = log --pretty=format:'%C(auto)%h %C(magenta)%ad %C(blue)[%an] %C(auto)%d %C(reset)%s' --all --graph --date=format:'%Y-%m-%d %H:%M'
 	master = checkout master
 	revd = review -d
 	rmbs = "!git branch | grep -v 'master' | xargs git branch -D"
