@@ -26,8 +26,7 @@ set softtabstop=4
 set expandtab
 
 set list
-set listchars=space:.,tab:»\ ,eol:¬
+set listchars=tab:»\ ,trail:·,nbsp:·,extends:›,precedes:‹,eol:↲
 
 set background=dark
-let g:solarized_visibility="normal"
 colorscheme solarized
