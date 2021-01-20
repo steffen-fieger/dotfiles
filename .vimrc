@@ -29,4 +29,5 @@ set list
 set listchars=space:.,tab:»\ ,eol:¬
 
 set background=dark
+let g:solarized_visibility="normal"
 colorscheme solarized
