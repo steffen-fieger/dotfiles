@@ -26,7 +26,7 @@ set softtabstop=4
 set expandtab
 
 set list
-set listchars=tab:»\ ,trail:·,nbsp:·,extends:›,precedes:‹,eol:↲
+set listchars=space:⋅,trail:•,nbsp:°,tab:»\ ,extends:›,precedes:‹,eol:¶
 
 set background=dark
 colorscheme solarized
