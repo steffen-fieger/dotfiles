@@ -3,7 +3,7 @@ Diverse Konfigurationen
 
 ## Auf neuem System
 
-* in .bashrc `alias config='/usr/bin/git --git-dir=$HOME/dotfiles/` --work-tree=$HOME' einfügen
+* in .bashrc `alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'` einfügen
 * `git clone --bare git@github.com:sfieger/dotfiles.git $HOME/dotfiles`
 * `alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'`
 * `config checkout`
