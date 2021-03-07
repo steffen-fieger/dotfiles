@@ -3,6 +3,7 @@
 import XMonad
 import Data.Monoid
 import System.Exit
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run
 import qualified XMonad.StackSet as W
@@ -41,12 +42,18 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+--myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces    = ["web","media","code","proj"]
+myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..]
+
+clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
+    where i = fromJust $ M.lookup ws myWorkspaceIndices
+
 
 -- Border colors for unfocused and focused windows, respectively.
 --
-myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#ff0000"
+myNormalBorderColor  = "#93a1a1"
+myFocusedBorderColor = "#dc322f"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -273,8 +280,18 @@ defaults = def {
         layoutHook         = myLayout,
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
-        logHook            = myLogHook,
-        startupHook        = myStartupHook
+        startupHook        = myStartupHook,
+        logHook            = myLogHook <+> dynamicLogWithPP xmobarPP
+            { ppOutput = \x -> hPutStrLn xmproc0 x  >> hPutStrLn xmproc1 x  >> hPutStrLn xmproc2 x
+            , ppCurrent = xmobarColor "#859900" "" . wrap "[" "]"
+            , ppVisible = xmobarColor "#859900" "" . clickable
+            , ppHidden = xmobarColor "#6c71c4" "" . wrap "*" "" . clickable
+            , ppHiddenNoWindows = xmobarColor "#6c71c4" ""  . clickable
+            , ppTitle = xmobarColor "#839496" "" . shorten 60
+            , ppSep =  "<fc=#839496>|</fc>"
+            , ppUrgent = xmobarColor "#dc322f" "" . wrap "!" "!"
+            , ppOrder  = \(ws:l:t) -> [ws,l,t]
+            }
     }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
