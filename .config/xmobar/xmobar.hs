@@ -1,5 +1,4 @@
-Config { font = "xft:DejaVu Sans:pixelsize=12:antialias=true:hinting:true"
-       , additionalFonts = ["xft:Mononoki Nerd Font:pixelsize=12:antialias=true:hinting:true"]
+Config { font = "xft:DejaVu Sans Mono Nerd Font Complete:pixelsize=12:antialias=true:hinting:true"
        , bgColor = "#002b36"
        , fgColor = "#839496"
        , border = BottomB
