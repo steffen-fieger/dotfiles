@@ -27,6 +27,8 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
+set cursorline
+
 set shiftwidth=4
 set softtabstop=4
 set expandtab

@@ -50,6 +50,4 @@ fi
 
 xsetroot -cursor_name left_ptr
 
-nitrogen --restore &
-picom &
 exec xmonad

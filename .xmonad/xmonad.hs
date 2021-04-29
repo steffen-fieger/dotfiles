@@ -1,30 +1,68 @@
 -- IMPORTS
 import XMonad
 import XMonad.Config.Desktop
+import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.ManageDocks
 import XMonad.Layout.Spiral
+import qualified XMonad.StackSet as W
+import XMonad.Util.Run
+import XMonad.Util.SpawnOnce
+import System.IO
 
 
--- Customize Stuff
-myTerminal      = "xterm"
-myModMask       = mod4Mask  -- Win key
+-- Variables
+myTerminal              = "xterm"
+myModMask               = mod4Mask              -- Win key
+myBorderWidth           = 2
+myNormalBorderColor     = "#839496"
+myFocusedBorderColor    = "#dc322f"
+myWorkspaces = ["www", "com", "doc", "media"]
 
-myBorderWidth       = 3
-myNormalBorderColor   = "#839496"
-myFocusedBorderColor  = "#dc322f"
+windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
-myLayouts = myLayoutTall ||| myLayoutSpiral ||| myLayoutFull
+
+-- Hooks
+myManageHook = composeAll
+    [ className =? "firefox"                                --> doShift ( myWorkspaces !! 0 )
+    , (className =? "firefox" <&&> resource =? "Dialog")    --> doFloat
+    , className =? "thunderbird"                            --> doShift ( myWorkspaces !! 1 )
+    , className =? "vlc"                                    --> doShift ( myWorkspaces !! 3 )
+    ]
+
+myLayoutHook = (myLayoutTall ||| myLayoutSpiral ||| myLayoutFull)
     where
         myLayoutTall = Tall 1 (3/100) (1/2) 
         myLayoutSpiral = spiral (0.856) 
         myLayoutFull = Full
 
+myStartupHook = do
+    spawnOnce "nitrogen --restore &"
+    spawnOnce "picom &"
 
--- Do stuff
-main = xmonad desktopConfig
-        { terminal      = myTerminal
-        , modMask       = myModMask
-        , borderWidth   = myBorderWidth
-        , normalBorderColor = myNormalBorderColor
-        , focusedBorderColor = myFocusedBorderColor
-        , layoutHook    = myLayouts
+
+-- Do Stuff
+main = do
+    xmproc <- spawnPipe "xmobar ~/.config/xmobar/xmobar.hs"
+    xmonad $ docks desktopConfig
+        { manageHook            = manageDocks <+> myManageHook <+> manageHook desktopConfig
+        , layoutHook            = avoidStruts $ myLayoutHook
+        , startupHook           = myStartupHook
+        , logHook               = dynamicLogWithPP xmobarPP
+                { ppOutput          = hPutStrLn xmproc
+                , ppCurrent         = xmobarColor "#859900" "" . wrap "[" "]"
+                , ppVisible         = xmobarColor "#859900" ""
+                , ppHidden          = xmobarColor "#268bd2" "" . wrap "" "*"
+                , ppHiddenNoWindows = xmobarColor "#d33682" ""
+                , ppUrgent          = xmobarColor "#dc322f" "" . wrap "!" "!"
+                , ppTitle           = xmobarColor "#93a1a1" "" . shorten 60
+                , ppSep             = "<fc=#839496>|</fc>"
+                , ppExtras          = [windowCount]
+                , ppOrder           = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+                }
+        , terminal              = myTerminal
+        , modMask               = myModMask
+        , borderWidth           = myBorderWidth
+        , normalBorderColor     = myNormalBorderColor
+        , focusedBorderColor    = myFocusedBorderColor
+        , workspaces            = myWorkspaces
         }

@@ -1,22 +1,21 @@
-Config { font = "xft:DejaVu Sans Mono Nerd Font Complete:pixelsize=12:antialias=true:hinting:true"
-       , bgColor = "#002b36"
-       , fgColor = "#839496"
-       , border = BottomB
-       , borderColor = "#073642"
-       , borderWidth = 3
-       , position = Top
-       , lowerOnStart = True
-       , commands = [Run Date "<fn=1>\xf133 </fn> %d.%m.%Y %H:%M" "date" 60
-                    , Run Network "wlp11s0" ["-t", "<fn=1>\xf0ab </fn><rx> <fn=1>\xf0aa </fn><tx>kB/s"] 10
-                    , Run Cpu ["-t", "<fn=1>\xf108 </fn><total>%", "-L", "30", "-H", "80", "-l", "#859900", "-n", "#cb4b16", "-h", "#dc322f"] 10
-                    , Run Memory ["-t", "<fn=1>\xf233 </fn><usedratio>%", "-L", "30", "-H", "80", "-l", "#859900", "-n", "#cb4b16", "-h", "#dc322f"] 10
-                    , Run Swap ["-t", "<usedratio>%", "-L", "30", "-H", "80", "-l", "#859900", "-n", "#cb4b16", "-h", "#dc322f"] 10
-                    , Run Com "uname" ["-r"] "" 36000
-                    , Run BatteryP ["-t", "<acstatus> <left>% - <timeleft>", "--", "-O", "<fn=1>\xf583</fn>","-o", "<fn=1>\xf57f</fn>", "-h", "#859900", "-m", "#cb4b16", "-l", "#dc322f"] 60
-                    --, Run Volume "default" "Master" ["-t", "<status> <volume>%", "-O", "<fn=1>\xf9c2 </fn>", -o", "<fn=1>\xf9c3 </fn>"] 10
-                    --, Run UnsafeStdinReader
-                    ]
-       , sepChar = "%"
-       , alignSep = "}{"
-       , template = "}{<fc=#cb4b16>%cpu%</fc> | <fc=#dc322f>%memory%</fc> * <fc=#dc322f>%swap%</fc> | <fc=#859900>%wlp11s0%</fc> | <fc=#6c71c4>%battery%</fc> | <fc=#268bd2>%default:Master%</fc> | <fc=#2aa198>%date%</fc> | %uname%"
-       }
+Config { font = "xft:DejaVu Sans Mono Nerd Font:pixelsize=12:antialias=true:hinting=true"
+    , bgColor = "#002b36"
+    , fgColor = "#839496"
+    , border = BottomB
+    , borderColor = "#073642"
+    , borderWidth = 3
+    , position = Top
+    , lowerOnStart = True
+    , commands = [ Run Cpu ["-t", "<fc=#cb4b16>\xf108 </fc><total>%"] 10
+        , Run Memory ["-t", "<fc=#dc322f>\xf85a </fc><usedratio>%"] 10
+        , Run Swap ["-t", "<fc=#dc322f>\xf7c9 </fc><usedratio>%"] 10
+        , Run Network "wlp11s0" ["-t", "<fc=#d33682>\xf0ab </fc><rx> <fc=#d33682>\xf0aa </fc><tx>"] 10
+        , Run Volume "default" "Master" ["-t", "<fc=#6c71c4>\xfc1d </fc><volume>%"] 10
+        , Run Battery ["-t", "<fc=#268bd2><acstatus> </fc><left>%", "--", "-O", "\xf583","-o", "\xf57f"] 60
+        , Run Date "<fc=#859900>\xf133 </fc>%d.%m.%Y %H:%M" "date" 60
+        , Run StdinReader
+        ]
+    , sepChar = "%"
+    , alignSep = "}{"
+    , template = " %StdinReader%}{%cpu%|%memory% %swap%|%wlp11s0%|%default:Master%|%battery%|%date% "
+    }
