@@ -70,7 +70,6 @@
 
 
 ! XTerm Settings
-
 XTerm.termName:			xterm-256color
 XTerm*selectToClipboard:	true
 XTerm*utf8:			1
@@ -80,5 +79,13 @@ XTerm*scrollBar:		true
 XTerm*scrollbar.width:		8
 XTerm*rightScrollBar:		true
 XTerm*renderFont:		true
-XTerm*faceName:			DejaVu Sans Mono:size=10:antialias=true:hinting=true
+XTerm*faceName:			xft:DejaVu Sans Mono:size=10:antialias=true:hinting=true
 XTerm*scaleHeight:		1.01
+
+
+! dmenu
+dmenu.font:                     xft:DejaVu Sans Monp:size=10:antialias=true:hinting=true
+dmenu.background:               S_base03
+dmenu.foreground:               S_base0
+dmenu.selbackground:            S_base02
+dmenu.selforeground:            S_base1

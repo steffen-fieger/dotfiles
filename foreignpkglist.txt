@@ -1,0 +1,3 @@
+dropbox
+nerd-fonts-dejavu-complete
+yay-git

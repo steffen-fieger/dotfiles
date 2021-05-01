@@ -12,28 +12,29 @@ import System.IO
 
 -- Variables
 myTerminal              = "xterm"
-myModMask               = mod4Mask              -- Win key
+myModMask               = mod4Mask -- Win key
 myBorderWidth           = 2
 myNormalBorderColor     = "#839496"
 myFocusedBorderColor    = "#dc322f"
-myWorkspaces = ["www", "com", "doc", "media"]
+myWorkspaces            = ["www", "com", "doc", "media"]
 
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
 
 -- Hooks
 myManageHook = composeAll
-    [ className =? "firefox"                                --> doShift ( myWorkspaces !! 0 )
-    , (className =? "firefox" <&&> resource =? "Dialog")    --> doFloat
-    , className =? "thunderbird"                            --> doShift ( myWorkspaces !! 1 )
-    , className =? "vlc"                                    --> doShift ( myWorkspaces !! 3 )
+    [ className =? "firefox"        --> doShift (myWorkspaces !! 0)
+    , className =? "Thunderbird"    --> doShift (myWorkspaces !! 1)
+    , className =? "vlc"            --> doShift (myWorkspaces !! 3)
+    , (className =? "firefox" <&&> resource =? "Dialog")        --> doFloat
+    , (className =? "Thunderbird" <&&> resource =? "Dialog")    --> doFloat
     ]
 
-myLayoutHook = (myLayoutTall ||| myLayoutSpiral ||| myLayoutFull)
+myLayoutHook = (myLayoutFull ||| myLayoutTall ||| myLayoutSpiral)
     where
+        myLayoutFull = Full
         myLayoutTall = Tall 1 (3/100) (1/2) 
         myLayoutSpiral = spiral (0.856) 
-        myLayoutFull = Full
 
 myStartupHook = do
     spawnOnce "nitrogen --restore &"
@@ -52,7 +53,7 @@ main = do
                 , ppCurrent         = xmobarColor "#859900" "" . wrap "[" "]"
                 , ppVisible         = xmobarColor "#859900" ""
                 , ppHidden          = xmobarColor "#268bd2" "" . wrap "" "*"
-                , ppHiddenNoWindows = xmobarColor "#d33682" ""
+                , ppHiddenNoWindows = xmobarColor "#6c71c4" ""
                 , ppUrgent          = xmobarColor "#dc322f" "" . wrap "!" "!"
                 , ppTitle           = xmobarColor "#93a1a1" "" . shorten 60
                 , ppSep             = "<fc=#839496>|</fc>"

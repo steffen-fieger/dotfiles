@@ -1,4 +1,4 @@
-syntax on
+syntax enable
 
 set hidden
 set wildmenu
@@ -34,7 +34,7 @@ set softtabstop=4
 set expandtab
 
 set list
-set listchars=space:.,tab:>_,eol:¶
+set listchars=tab:>\ ,nbsp:°,trail:_,eol:¶
 
 set background=dark
 colorscheme solarized
