@@ -84,8 +84,10 @@ XTerm*scaleHeight:		1.01
 
 
 ! dmenu
-dmenu.font:                     xft:DejaVu Sans Monp:size=10:antialias=true:hinting=true
+dmenu.font:                     xft:DejaVu Sans Mono:size=10:antialias=true:hinting=true
 dmenu.background:               S_base03
 dmenu.foreground:               S_base0
 dmenu.selbackground:            S_base02
 dmenu.selforeground:            S_base1
+dmenu.highlight:                S_yellow
+dmenu.selhighlight:             S_yellow

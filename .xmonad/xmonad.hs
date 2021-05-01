@@ -1,13 +1,14 @@
 -- IMPORTS
+import System.IO
 import XMonad
 import XMonad.Config.Desktop
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.Spiral
-import qualified XMonad.StackSet as W
 import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
-import System.IO
+import qualified XMonad.StackSet as W
 
 
 -- Variables
@@ -23,18 +24,28 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 
 -- Hooks
 myManageHook = composeAll
-    [ className =? "firefox"        --> doShift (myWorkspaces !! 0)
+    [ className =? "confirm"        --> doFloat
+    , className =? "file_progress"  --> doFloat
+    , className =? "dialog"         --> doFloat
+    , className =? "download"       --> doFloat
+    , className =? "error"          --> doFloat
+    , className =? "notification"   --> doFloat
+    , className =? "splash"         --> doFloat
+    , className =? "toolbar"        --> doFloat
+    , (className =? "firefox"       <&&> resource =? "Dialog")  --> doFloat
+    , (className =? "Thunderbird"   <&&> resource =? "Dialog")  --> doFloat
+    , isFullscreen --> doFullFloat
+    , className =? "firefox"        --> doShift (myWorkspaces !! 0)
     , className =? "Thunderbird"    --> doShift (myWorkspaces !! 1)
     , className =? "vlc"            --> doShift (myWorkspaces !! 3)
-    , (className =? "firefox" <&&> resource =? "Dialog")        --> doFloat
-    , (className =? "Thunderbird" <&&> resource =? "Dialog")    --> doFloat
     ]
 
-myLayoutHook = (myLayoutFull ||| myLayoutTall ||| myLayoutSpiral)
+myLayoutHook = (myFull ||| myTall ||| myMirrorTall ||| mySpiral)
     where
-        myLayoutFull = Full
-        myLayoutTall = Tall 1 (3/100) (1/2) 
-        myLayoutSpiral = spiral (0.856) 
+        myFull          = Full
+        myTall          = Tall 1 (3/100) (1/2)
+        myMirrorTall    = Mirror (myTall)
+        mySpiral        = spiral (0.856)
 
 myStartupHook = do
     spawnOnce "nitrogen --restore &"
