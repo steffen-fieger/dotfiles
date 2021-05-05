@@ -6,6 +6,7 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.Spiral
+import XMonad.Util.EZConfig
 import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
 import qualified XMonad.StackSet as W
@@ -52,6 +53,14 @@ myStartupHook = do
     spawnOnce "picom &"
 
 
+-- Key Bindings
+myKeyBindings =
+    [ ("M-S-p", spawn "dmenu_run -i -p \"Run: \"")      -- dmenu
+    , ("M-p k", spawn "~/dmenu-scripts/dmenukill")      -- dmenukill-Script
+    , ("M-p s", spawn "~/dmenu-scripts/dmenusearch")    -- dmenusearch-Script
+    ]
+
+
 -- Do Stuff
 main = do
     xmproc <- spawnPipe "xmobar ~/.config/xmobar/xmobar.hs"
@@ -77,4 +86,4 @@ main = do
         , normalBorderColor     = myNormalBorderColor
         , focusedBorderColor    = myFocusedBorderColor
         , workspaces            = myWorkspaces
-        }
+        } `additionalKeysP` myKeyBindings
